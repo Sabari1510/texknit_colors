@@ -21,3 +21,4 @@ Commit at 2026-02-06T17:29:21: update database schema
 Commit at 2026-02-07T14:16:51: fix typo
 Commit at 2026-02-07T10:34:54: tweak button colors
 Commit at 2026-02-07T14:10:57: code cleanup
+Commit at 2026-02-08T16:31:55: update readme
