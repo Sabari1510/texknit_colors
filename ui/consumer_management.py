@@ -1,0 +1,222 @@
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
+                             QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QFrame,
+                             QDialog, QFormLayout, QLineEdit, QMessageBox)
+from PySide6.QtCore import Qt
+from database.models import Consumer
+from services.communication_service import relay
+
+class ConsumerFormDialog(QDialog):
+    def __init__(self, consumer=None, parent=None):
+        super().__init__(parent)
+        self.consumer = consumer
+        self.setWindowTitle("Add New Consumer" if not consumer else "Edit Consumer")
+        self.setMinimumWidth(400)
+        self.setup_ui()
+        
+    def setup_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(20, 20, 20, 20)
+        
+        form_layout = QFormLayout()
+        form_layout.setSpacing(15)
+        
+        self.name_input = QLineEdit()
+        self.name_input.setPlaceholderText("Enter company name")
+        if self.consumer: self.name_input.setText(self.consumer.company_name)
+        
+        self.person_input = QLineEdit()
+        self.person_input.setPlaceholderText("Contact person name")
+        if self.consumer: self.person_input.setText(self.consumer.contact_person)
+        
+        self.phone_input = QLineEdit()
+        self.phone_input.setPlaceholderText("Mobile / Contact number")
+        if self.consumer: self.phone_input.setText(self.consumer.phone)
+        
+        self.gst_input = QLineEdit()
+        self.gst_input.setPlaceholderText("GST No (Optional)")
+        if self.consumer: self.gst_input.setText(self.consumer.gst_no)
+        
+        self.location_input = QLineEdit()
+        self.location_input.setPlaceholderText("City / Region / Location")
+        if self.consumer: self.location_input.setText(self.consumer.location)
+        
+        form_layout.addRow("Company Name:", self.name_input)
+        form_layout.addRow("Contact Person:", self.person_input)
+        form_layout.addRow("Phone Number:", self.phone_input)
+        form_layout.addRow("GST No:", self.gst_input)
+        form_layout.addRow("Location:", self.location_input)
+        
+        layout.addLayout(form_layout)
+        layout.addSpacing(20)
+        
+        self.btn_save = QPushButton("Save Consumer")
+        self.btn_save.setStyleSheet("background: #8B5E3C; color: white; padding: 12px; font-weight: bold; border-radius: 8px;")
+        self.btn_save.clicked.connect(self.save)
+        layout.addWidget(self.btn_save)
+
+    def save(self):
+        name = self.name_input.text()
+        person = self.person_input.text()
+        phone = self.phone_input.text()
+        
+        if not name or not person or not phone:
+            QMessageBox.warning(self, "Error", "Name, Contact Person, and Phone are required")
+            return
+            
+        if self.consumer:
+            self.consumer.company_name = name
+            self.consumer.contact_person = person
+            self.consumer.phone = phone
+            self.consumer.gst_no = self.gst_input.text()
+            self.consumer.location = self.location_input.text()
+            self.consumer.save()
+        else:
+            Consumer.create(
+                company_name=name,
+                contact_person=person,
+                phone=phone,
+                gst_no=self.gst_input.text(),
+                location=self.location_input.text()
+            )
+        
+        # Notify reactivity system
+        relay.data_changed.emit()
+        self.accept()
+
+class ConsumerManagementView(QWidget):
+    def __init__(self, user):
+        super().__init__()
+        self.user = user
+        self.setup_ui()
+        self.load_data()
+        
+        # Connect to reactivity system
+        relay.data_changed.connect(self.load_data)
+
+    def setup_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setSpacing(24)
+        
+        # Header
+        header_layout = QHBoxLayout()
+        title_container = QVBoxLayout()
+        title = QLabel("Consumer Management")
+        title.setObjectName("TitleLabel")
+        subtitle = QLabel("Manage your client list, their contact details and billing locations.")
+        subtitle.setObjectName("SubtitleLabel")
+        title_container.addWidget(title)
+        title_container.addWidget(subtitle)
+        header_layout.addLayout(title_container)
+        
+        header_layout.addStretch()
+        self.btn_add = QPushButton("+ Add New Consumer")
+        self.btn_add.setProperty("class", "PrimaryButton")
+        self.btn_add.clicked.connect(self.show_add_consumer)
+        header_layout.addWidget(self.btn_add)
+        layout.addLayout(header_layout)
+        
+        # Table
+        self.table = QTableWidget()
+        self.table.setColumnCount(6)
+        self.table.setHorizontalHeaderLabels([
+            "Company Name", "Contact Person", "Mobile", "GST No", "Location", "Actions"
+        ])
+        
+        header = self.table.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.Stretch)
+        header.setSectionResizeMode(5, QHeaderView.Fixed)
+        self.table.setColumnWidth(5, 180)
+        self.table.verticalHeader().setVisible(False)
+        self.table.verticalHeader().setDefaultSectionSize(60) 
+        self.table.setShowGrid(False)
+        self.table.setAlternatingRowColors(True)
+        self.table.setStyleSheet("""
+            QTableWidget { 
+                background: white; 
+                border-radius: 12px; 
+                gridline-color: transparent;
+                border: 1px solid #E5E7EB;
+            }
+        """)
+        
+        layout.addWidget(self.table)
+
+    def load_data(self):
+        consumers = Consumer.select().order_by(Consumer.company_name)
+        self.table.setRowCount(len(consumers))
+        
+        for i, c in enumerate(consumers):
+            self.table.setItem(i, 0, QTableWidgetItem(c.company_name))
+            self.table.setItem(i, 1, QTableWidgetItem(c.contact_person))
+            self.table.setItem(i, 2, QTableWidgetItem(c.phone))
+            self.table.setItem(i, 3, QTableWidgetItem(c.gst_no or "N/A"))
+            self.table.setItem(i, 4, QTableWidgetItem(c.location or "N/A"))
+            
+            btn_edit = QPushButton("✎")
+            btn_edit.setFixedSize(32, 32)
+            btn_edit.setCursor(Qt.PointingHandCursor)
+            btn_edit.setToolTip("Edit Consumer")
+            btn_edit.setStyleSheet("""
+                QPushButton {
+                    background-color: #FDFBF7;
+                    color: #8B5E3C;
+                    border: 1px solid rgba(139, 94, 60, 0.2);
+                    border-radius: 16px;
+                    font-size: 16px;
+                }
+                QPushButton:hover {
+                    background-color: #8B5E3C;
+                    color: white;
+                    border: none;
+                }
+            """)
+            btn_edit.clicked.connect(lambda checked=False, consumer=c: self.show_edit_consumer(consumer))
+            
+            btn_delete = QPushButton("✕")
+            btn_delete.setFixedSize(32, 32)
+            btn_delete.setCursor(Qt.PointingHandCursor)
+            btn_delete.setToolTip("Delete Consumer")
+            btn_delete.setStyleSheet("""
+                QPushButton {
+                    background-color: #FEE2E2;
+                    color: #991B1B;
+                    border: 1px solid #FECACA;
+                    border-radius: 16px;
+                    font-size: 14px;
+                    font-weight: 800;
+                }
+                QPushButton:hover {
+                    background-color: #EF4444;
+                    color: white;
+                    border: none;
+                }
+            """)
+            btn_delete.clicked.connect(lambda checked=False, consumer=c: self.confirm_delete(consumer))
+
+            # Container for centering
+            container = QWidget()
+            btn_layout = QHBoxLayout(container)
+            btn_layout.setContentsMargins(0, 0, 0, 0)
+            btn_layout.setSpacing(12)
+            btn_layout.setAlignment(Qt.AlignCenter)
+            btn_layout.addWidget(btn_edit)
+            btn_layout.addWidget(btn_delete)
+            self.table.setCellWidget(i, 5, container)
+
+    def confirm_delete(self, consumer):
+        reply = QMessageBox.question(self, "Confirm Delete", 
+                                   f"Are you sure you want to delete {consumer.company_name}?\nThis action cannot be undone.",
+                                   QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            consumer.delete_instance()
+            relay.data_changed.emit()
+            self.load_data()
+
+    def show_add_consumer(self):
+        dialog = ConsumerFormDialog(parent=self)
+        dialog.exec()
+
+    def show_edit_consumer(self, consumer):
+        dialog = ConsumerFormDialog(consumer=consumer, parent=self)
+        dialog.exec()
