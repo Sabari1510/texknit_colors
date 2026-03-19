@@ -2,20 +2,20 @@ import shutil
 import datetime
 from pathlib import Path
 from utils.logger import app_logger
+from utils.path_resolver import resolve_data
 
 class BackupService:
     @staticmethod
     def create_database_backup():
         """Creates a timestamped copy of the database file."""
         try:
-            root_dir = Path(__file__).parent.parent
-            db_file = root_dir / "stock_management.db"
+            db_file = resolve_data("stock_management.db")
             
             if not db_file.exists():
                 app_logger.warning("Database file not found for backup.")
                 return False
                 
-            backup_dir = root_dir / "backups"
+            backup_dir = resolve_data("backups")
             backup_dir.mkdir(exist_ok=True)
             
             # Clean up old backups (keep last 7)

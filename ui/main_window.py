@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                              QPushButton, QStackedWidget, QLabel, QFrame, QMessageBox, QApplication, QSizePolicy)
 from PySide6.QtCore import Qt, Signal
-from pathlib import Path
+from utils.path_resolver import resolve_asset
 
 from ui.inventory_management import InventoryManagementView
 from ui.mrs_workflow import MRSWorkflowView
@@ -20,7 +20,7 @@ class MainWindow(QMainWindow):
         self.resize(1280, 880)
 
         # Load Styles
-        styles_path = Path(__file__).parent / "styles.qss"
+        styles_path = resolve_asset("ui/styles.qss")
         with open(styles_path, "r", encoding="utf-8") as f:
             self.setStyleSheet(f.read())
 

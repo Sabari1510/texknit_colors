@@ -3,10 +3,11 @@ import logging.handlers
 import sys
 from pathlib import Path
 from PySide6.QtWidgets import QMessageBox
+from utils.path_resolver import resolve_data
 
 def setup_logger():
     # Create logs directory
-    log_dir = Path(__file__).parent.parent / "logs"
+    log_dir = resolve_data("logs")
     log_dir.mkdir(exist_ok=True)
     
     log_file = log_dir / "app.log"

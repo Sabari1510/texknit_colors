@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel,
                              QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, 
                              QHeaderView, QFormLayout, QComboBox, QMessageBox)
 from PySide6.QtCore import Qt
-from pathlib import Path
+from utils.path_resolver import resolve_asset
 from database.models import Material, Supplier, db
 from services.inventory_service import InventoryService
 from services.communication_service import relay
@@ -17,7 +17,7 @@ class SupplierProductDialog(QDialog):
         self.resize(700, 500)
         
         # Load Styles
-        styles_path = Path(__file__).parent / "styles.qss"
+        styles_path = resolve_asset("ui/styles.qss")
         with open(styles_path, "r", encoding="utf-8") as f:
             self.setStyleSheet(f.read())
             

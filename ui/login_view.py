@@ -1,8 +1,7 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QLineEdit,
                              QPushButton, QFrame, QHBoxLayout)
 from PySide6.QtCore import Qt, Signal
-from pathlib import Path
-
+from utils.path_resolver import resolve_asset
 
 class LoginView(QWidget):
     login_success = Signal(object)
@@ -13,7 +12,7 @@ class LoginView(QWidget):
         self.resize(460, 560)
 
         # Load Styles
-        styles_path = Path(__file__).parent / "styles.qss"
+        styles_path = resolve_asset("ui/styles.qss")
         with open(styles_path, "r", encoding="utf-8") as f:
             self.setStyleSheet(f.read())
 

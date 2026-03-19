@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
                              QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QFrame, QMessageBox)
 from PySide6.QtCore import Qt
+from PySide6 import QtGui
 from services.inventory_service import InventoryService
 from services.communication_service import relay
 from ui.components.status_badge import StatusBadge
@@ -76,17 +77,17 @@ class InventoryManagementView(QWidget):
         
         # Table Section
         self.table = QTableWidget()
-        self.table.setColumnCount(5)
+        self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels([
-            "Material Details", "Supplier", "Live Stock", "Status", "Actions"
+            "Material Details", "Supplier", "Live Stock", "Total Value", "Status", "Actions"
         ])
         
         header = self.table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents) # Material Details
-        header.setSectionResizeMode(4, QHeaderView.Fixed) # Actions
+        header.setSectionResizeMode(5, QHeaderView.Fixed) # Actions
         
-        self.table.setColumnWidth(4, 160) # Actions column
+        self.table.setColumnWidth(5, 160) # Actions column
         
         self.table.verticalHeader().setVisible(False)
         self.table.verticalHeader().setDefaultSectionSize(60) # Standard premium height
@@ -120,6 +121,11 @@ class InventoryManagementView(QWidget):
         footer_layout.addWidget(legend1)
         footer_layout.addWidget(legend2)
         footer_layout.addStretch()
+        
+        self.total_value_label = QLabel("Total Inventory Value: ₹0.00")
+        self.total_value_label.setStyleSheet("font-size: 13px; font-weight: 700; color: #1E293B; background: #F1F5F9; padding: 6px 16px; border-radius: 8px;")
+        footer_layout.addWidget(self.total_value_label)
+        
         layout.addLayout(footer_layout)
 
     def load_data(self):
@@ -150,7 +156,10 @@ class InventoryManagementView(QWidget):
 
     def display_data(self, materials_list):
         self.table.setRowCount(len(materials_list))
+        total_inventory_value = 0
         for i, m in enumerate(materials_list):
+            material_value = m.quantity * m.unit_cost
+            total_inventory_value += material_value
             # 1. Details (Name + ABC Category + Cost)
             detail_widget = QWidget()
             detail_layout = QVBoxLayout(detail_widget)
@@ -193,6 +202,15 @@ class InventoryManagementView(QWidget):
             stock_item.setTextAlignment(Qt.AlignCenter)
             self.table.setItem(i, 2, stock_item)
             
+            # 3.5 Total Value
+            value_item = QTableWidgetItem(f"₹{material_value:,.2f}")
+            value_item.setTextAlignment(Qt.AlignCenter)
+            font = value_item.font()
+            font.setBold(True)
+            value_item.setFont(font)
+            value_item.setForeground(QtGui.QColor("#0F172A"))
+            self.table.setItem(i, 3, value_item)
+            
             # 4. Status (Wrapped for centering)
             status_type = 'critical' if m.quantity == 0 else 'warning' if m.quantity <= m.min_stock else 'success'
             status_text = 'Dead Stock' if m.quantity == 0 else 'Low Stock' if m.quantity <= m.min_stock else 'In Stock'
@@ -203,7 +221,7 @@ class InventoryManagementView(QWidget):
             status_layout.setContentsMargins(0, 0, 0, 0)
             status_layout.setAlignment(Qt.AlignCenter)
             status_layout.addWidget(status_badge)
-            self.table.setCellWidget(i, 3, status_container)
+            self.table.setCellWidget(i, 4, status_container)
             
             # 5. Action
             btn_details = QPushButton("ⓘ")
@@ -277,7 +295,9 @@ class InventoryManagementView(QWidget):
             action_layout.addWidget(btn_edit)
             action_layout.addWidget(btn_del)
             # action_layout.addStretch() # Removed trailing stretch to favor left-leaning/centered alignment
-            self.table.setCellWidget(i, 4, action_widget)
+            self.table.setCellWidget(i, 5, action_widget)
+            
+        self.total_value_label.setText(f"Total Inventory Value: ₹{total_inventory_value:,.2f}")
 
     def show_add_material(self):
         from ui.material_form_dialog import MaterialFormDialog

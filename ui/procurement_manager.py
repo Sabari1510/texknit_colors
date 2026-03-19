@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
                              QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, 
-                             QComboBox, QFrame, QScrollArea, QTabWidget, QMessageBox, QTextEdit)
+                             QComboBox, QFrame, QScrollArea, QTabWidget, QMessageBox, QTextEdit, QDialog, QGridLayout)
 from PySide6.QtCore import Qt
 from services.procurement_service import ProcurementService
 from services.inventory_service import InventoryService
@@ -227,18 +227,37 @@ class ProcurementManagerView(QWidget):
             self.approval_table.setItem(i, 2, QTableWidgetItem(p.created_at.strftime("%Y-%m-%d")))
             self.approval_table.setCellWidget(i, 3, StatusBadge(p.status, 'warning'))
             
-            btn = QPushButton("Review")
+            btn = QPushButton("REVIEW")
+            btn.setFixedWidth(70)
+            btn.setCursor(Qt.PointingHandCursor)
+            btn.setToolTip("Review Purchase Indent")
+            btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #F8FAFC;
+                    color: #8B5E3C;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 6px;
+                    padding: 4px 8px;
+                    font-size: 10px;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                }
+                QPushButton:hover {
+                    background-color: #8B5E3C;
+                    color: white;
+                    border: none;
+                }
+            """)
             btn.clicked.connect(lambda checked=False, pi=p: self.review_pi(pi))
             self.approval_table.setCellWidget(i, 4, btn)
 
     def review_pi(self, pi):
-        # Quick dialog for approval
-        reply = QMessageBox.question(self, "Approve PI", f"Approve {pi.reason}?\nAdd remarks:", QMessageBox.Yes | QMessageBox.No)
-        status = 'APPROVED' if reply == QMessageBox.Yes else 'REJECTED'
-        ProcurementService.update_pi_status(pi.id, self.user.id, status, "Desktop Approval")
-        self.load_data()
+        dialog = PIReviewDialog(pi, self)
+        if dialog.exec_() == QDialog.Accepted:
+            self.load_data()
 
     def refresh_inward(self, pis):
+        if not hasattr(self, 'inward_table'): return
         active = [p for p in pis if p.status in ['APPROVED', 'COMPLETED']]
         self.inward_table.setRowCount(len(active))
         for i, p in enumerate(active):
@@ -248,7 +267,27 @@ class ProcurementManagerView(QWidget):
             self.inward_table.setCellWidget(i, 3, StatusBadge(p.status, 'success' if p.status=='COMPLETED' else 'warning'))
             
             if p.status == 'APPROVED':
-                btn = QPushButton("Inward")
+                btn = QPushButton("INWARD")
+                btn.setFixedWidth(70)
+                btn.setCursor(Qt.PointingHandCursor)
+                btn.setToolTip("Process Inward Entry")
+                btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #F8FAFC;
+                        color: #22c55e;
+                        border: 1px solid #bbf7d0;
+                        border-radius: 6px;
+                        padding: 4px 8px;
+                        font-size: 10px;
+                        font-weight: 800;
+                        letter-spacing: 0.5px;
+                    }
+                    QPushButton:hover {
+                        background-color: #22c55e;
+                        color: white;
+                        border: none;
+                    }
+                """)
                 btn.clicked.connect(lambda checked=False, pi=p: self.complete_inward(pi))
                 self.inward_table.setCellWidget(i, 4, btn)
             else:
@@ -313,3 +352,123 @@ class ProcurementManagerView(QWidget):
         self.load_data()
         if self.inward_tab_widget:
             self.tabs.setCurrentWidget(self.inward_tab_widget)
+
+class PIReviewDialog(QDialog):
+    def __init__(self, pi, parent=None):
+        super().__init__(parent)
+        self.pi = pi
+        self.user = parent.user if parent else None
+        self.setWindowTitle(f"Review Purchase Indent — PI-{str(pi.id)[-4:].upper()}")
+        self.setMinimumWidth(600)
+        self.setup_ui()
+
+    def setup_ui(self):
+        from PySide6.QtWidgets import QGridLayout # Local import to be safe
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(30, 30, 30, 30)
+        layout.setSpacing(20)
+
+        # Header
+        header = QLabel(f"PURCHASE INDENT REVIEW")
+        header.setStyleSheet("font-size: 18px; font-weight: 800; color: #1E293B;")
+        layout.addWidget(header)
+
+        # Info Grid
+        info_frame = QFrame()
+        info_frame.setStyleSheet("background: #F8FAFC; border-radius: 10px; border: 1px solid #E2E8F0;")
+        info_layout = QGridLayout(info_frame)
+        info_layout.setContentsMargins(20, 20, 20, 20)
+        
+        lbl_style = "font-weight: 700; font-size: 11px; color: #64748B; letter-spacing: 0.5px;"
+        val_style = "font-size: 13px; font-weight: 500; color: #1E293B;"
+
+        def add_info(row, label, value):
+            l = QLabel(label)
+            l.setStyleSheet(lbl_style)
+            v = QLabel(str(value))
+            v.setStyleSheet(val_style)
+            info_layout.addWidget(l, row, 0)
+            info_layout.addWidget(v, row, 1)
+
+        add_info(0, "RAISED BY", self.pi.store_manager.username)
+        add_info(1, "DATE", self.pi.created_at.strftime("%Y-%m-%d %H:%M"))
+        add_info(2, "SUPPLIER", self.pi.supplier.name)
+        add_info(3, "REASON", self.pi.reason)
+        
+        layout.addWidget(info_frame)
+
+        # Items Table
+        items_label = QLabel("REQUESTED ITEMS")
+        items_label.setStyleSheet("font-weight: 800; font-size: 12px; color: #475569; margin-top: 10px;")
+        layout.addWidget(items_label)
+
+        self.table = QTableWidget()
+        self.table.setColumnCount(3)
+        self.table.setHorizontalHeaderLabels(["Material", "Current Stock", "Requested Qty"])
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table.setAlternatingRowColors(True)
+        self.table.setStyleSheet("QTableWidget { border-radius: 8px; border: 1px solid #E2E8F0; }")
+        
+        self.table.setRowCount(len(self.pi.items))
+        for i, item in enumerate(self.pi.items):
+            self.table.setItem(i, 0, QTableWidgetItem(item.material.name))
+            self.table.setItem(i, 1, QTableWidgetItem(f"{item.material.quantity} {item.material.unit}"))
+            
+            qty_item = QTableWidgetItem(f"{item.quantity} {item.material.unit}")
+            font = qty_item.font()
+            font.setBold(True)
+            qty_item.setFont(font)
+            self.table.setItem(i, 2, qty_item)
+            
+        layout.addWidget(self.table)
+
+        # Remarks
+        layout.addWidget(QLabel("APPROVAL REMARKS"))
+        self.remarks_input = QTextEdit()
+        self.remarks_input.setPlaceholderText("Optional remarks for the store manager...")
+        self.remarks_input.setFixedHeight(60)
+        self.remarks_input.setStyleSheet("border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px;")
+        layout.addWidget(self.remarks_input)
+
+        # Action Buttons
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+        
+        self.btn_reject = QPushButton("Reject PI")
+        self.btn_reject.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                color: #EF4444;
+                border: 1.5px solid #EF4444;
+                border-radius: 8px;
+                padding: 10px 24px;
+                font-weight: bold;
+            }
+            QPushButton:hover { background-color: #FEF2F2; }
+        """)
+        self.btn_reject.clicked.connect(lambda: self.process_approval('REJECTED'))
+        
+        self.btn_approve = QPushButton("Approve Purchase")
+        self.btn_approve.setStyleSheet("""
+            QPushButton {
+                background-color: #8B5E3C;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 30px;
+                font-weight: bold;
+            }
+            QPushButton:hover { background-color: #734D31; }
+        """)
+        self.btn_approve.clicked.connect(lambda: self.process_approval('APPROVED'))
+        
+        btn_layout.addWidget(self.btn_reject)
+        btn_layout.addWidget(self.btn_approve)
+        layout.addLayout(btn_layout)
+
+    def process_approval(self, status):
+        remarks = self.remarks_input.toPlainText().strip() or f"Desktop {status}"
+        ProcurementService.update_pi_status(self.pi.id, self.user.id, status, remarks)
+        from services.communication_service import relay
+        relay.data_changed.emit()
+        self.accept()

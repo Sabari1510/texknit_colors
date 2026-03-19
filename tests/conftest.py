@@ -32,6 +32,8 @@ def setup_test_db():
     Bind all models to an in-memory SQLite DB before each test,
     create tables, and tear them down after.
     """
+    # Initialize the proxy for migrations and atomic()
+    db.initialize(test_db)
     # Bind models to the test database
     test_db.bind(ALL_MODELS, bind_refs=False, bind_backrefs=False)
     test_db.connect()

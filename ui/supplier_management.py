@@ -55,13 +55,12 @@ class SupplierManagementView(QWidget):
         master_layout = QVBoxLayout(self.master_card)
         
         self.supplier_table = QTableWidget()
-        self.supplier_table.setColumnCount(7)
-        self.supplier_table.setHorizontalHeaderLabels(["Company Name", "Contact Person", "Mobile", "GST No", "Rating", "Products", "Actions"])
+        self.supplier_table.setColumnCount(6)
+        self.supplier_table.setHorizontalHeaderLabels(["Company Name", "Contact Person", "Mobile", "GST No", "Products", "Actions"])
         self.supplier_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.supplier_table.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        self.supplier_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeToContents)
-        self.supplier_table.horizontalHeader().setSectionResizeMode(6, QHeaderView.Fixed)
-        self.supplier_table.setColumnWidth(6, 120)
+        self.supplier_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.Fixed)
+        self.supplier_table.setColumnWidth(5, 120)
         self.supplier_table.verticalHeader().setVisible(False)
         self.supplier_table.verticalHeader().setDefaultSectionSize(52)
         self.supplier_table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -133,17 +132,11 @@ class SupplierManagementView(QWidget):
             self.supplier_table.setItem(i, 2, QTableWidgetItem(s.phone))
             self.supplier_table.setItem(i, 3, QTableWidgetItem(s.gst_no or "N/A"))
             
-            # Rating
-            rating_text = f"{'★' * int(round(s.rating))}{'☆' * (5 - int(round(s.rating)))}" if s.rating > 0 else "—"
-            rating_item = QTableWidgetItem(rating_text)
-            rating_item.setTextAlignment(Qt.AlignCenter)
-            self.supplier_table.setItem(i, 4, rating_item)
-            
             # Count products
             product_count = Material.select().where(Material.supplier == s).count()
             count_item = QTableWidgetItem(str(product_count))
             count_item.setTextAlignment(Qt.AlignCenter)
-            self.supplier_table.setItem(i, 5, count_item)
+            self.supplier_table.setItem(i, 4, count_item)
 
             # Actions Cell
             btn_edit = QPushButton("✎")
@@ -193,7 +186,7 @@ class SupplierManagementView(QWidget):
             action_layout.setAlignment(Qt.AlignCenter)
             action_layout.addWidget(btn_edit)
             action_layout.addWidget(btn_del)
-            self.supplier_table.setCellWidget(i, 6, action_container)
+            self.supplier_table.setCellWidget(i, 5, action_container)
 
     def on_supplier_selected(self):
         rows = self.supplier_table.selectionModel().selectedRows()

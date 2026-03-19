@@ -199,28 +199,32 @@ class UserManagementView(QWidget):
             actions_layout.setContentsMargins(4, 4, 4, 4)
             actions_layout.setSpacing(6)
 
-            btn_edit = QPushButton("Edit")
+            btn_edit = QPushButton("✎")
+            btn_edit.setFixedSize(32, 32)
+            btn_edit.setCursor(Qt.PointingHandCursor)
+            btn_edit.setToolTip("Edit User")
             btn_edit.setStyleSheet("""
                 QPushButton { 
-                    background-color: #EFF6FF; color: #734D31; border-radius: 6px; 
-                    padding: 6px 14px; font-size: 11px; font-weight: 700; border: 1px solid #BFDBFE;
+                    background-color: #F8FAFC; color: #8B5E3C; border-radius: 16px; 
+                    font-size: 16px; border: 1px solid #E2E8F0;
                 }
-                QPushButton:hover { background-color: #DBEAFE; }
+                QPushButton:hover { background-color: #8B5E3C; color: white; border: none; }
             """)
-            btn_edit.setCursor(Qt.PointingHandCursor)
             btn_edit.clicked.connect(lambda checked, u=user: self.show_edit_dialog(u))
             actions_layout.addWidget(btn_edit)
 
             if user.username != 'admin':
-                btn_delete = QPushButton("Delete")
+                btn_delete = QPushButton("✕")
+                btn_delete.setFixedSize(32, 32)
+                btn_delete.setCursor(Qt.PointingHandCursor)
+                btn_delete.setToolTip("Delete User")
                 btn_delete.setStyleSheet("""
                     QPushButton { 
-                        background-color: #FEF2F2; color: #DC2626; border-radius: 6px; 
-                        padding: 6px 14px; font-size: 11px; font-weight: 700; border: 1px solid #FECACA;
+                        background-color: #FEE2E2; color: #EF4444; border-radius: 16px; 
+                        font-size: 14px; font-weight: 800; border: 1px solid #FECACA;
                     }
-                    QPushButton:hover { background-color: #FEE2E2; }
+                    QPushButton:hover { background-color: #EF4444; color: white; border: none; }
                 """)
-                btn_delete.setCursor(Qt.PointingHandCursor)
                 btn_delete.clicked.connect(lambda checked, u=user: self.handle_delete(u))
                 actions_layout.addWidget(btn_delete)
 

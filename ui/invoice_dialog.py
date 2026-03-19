@@ -26,8 +26,10 @@ class InvoiceDialog(QtWidgets.QDialog):
         self.btn_save = QtWidgets.QPushButton("  Save as PDF")
         self.btn_print = QtWidgets.QPushButton("  Print Invoice")
         self.btn_mark_paid = QtWidgets.QPushButton("  Mark as Paid")
+        self.btn_finalize = QtWidgets.QPushButton("  Finalize & Send")
+        self.btn_edit = QtWidgets.QPushButton("  Edit Draft")
         
-        for btn in [self.btn_save, self.btn_print, self.btn_mark_paid]:
+        for btn in [self.btn_save, self.btn_print, self.btn_mark_paid, self.btn_finalize, self.btn_edit]:
             btn.setMinimumHeight(42)
             btn.setCursor(QtCore.Qt.PointingHandCursor)
             btn.setStyleSheet("""
@@ -47,15 +49,34 @@ class InvoiceDialog(QtWidgets.QDialog):
         
         self.btn_print.setStyleSheet(self.btn_save.styleSheet().replace("#8B5E3C", "#000000").replace("#734D31", "#333333"))
         self.btn_mark_paid.setStyleSheet(self.btn_save.styleSheet().replace("#8B5E3C", "#000000").replace("#734D31", "#333333"))
+        self.btn_finalize.setStyleSheet(self.btn_save.styleSheet()) # Keep primary color for final action
         
-        # Hide "Mark as Paid" if already paid
-        if self.invoice.status.upper() == 'PAID':
+        # Hide/Show buttons based on status
+        status = self.invoice.status.upper()
+        if status == 'PAID':
             self.btn_mark_paid.setVisible(False)
+            self.btn_finalize.setVisible(False)
+        elif status == 'SENT':
+            self.btn_finalize.setVisible(False)
+        elif status == 'DRAFT':
+            self.btn_mark_paid.setVisible(False)
+            # DRAFTs can be finalized or edited
+        
+        self.btn_edit.setStyleSheet(self.btn_save.styleSheet().replace("#8B5E3C", "#475569").replace("#734D31", "#334155"))
+        if status != 'DRAFT':
+            self.btn_edit.setVisible(False)
         
         branding_layout.addWidget(title_label)
         branding_layout.addStretch()
         branding_layout.addLayout(toolbar)
         layout.addWidget(branding_box)
+        
+        # Setup signals
+        self.btn_save.clicked.connect(self.save_invoice)
+        self.btn_print.clicked.connect(self.print_invoice)
+        self.btn_mark_paid.clicked.connect(self.mark_as_paid)
+        self.btn_finalize.clicked.connect(self.finalize_invoice)
+        self.btn_edit.clicked.connect(self.request_edit)
 
         # Professional HTML View
         from PySide6.QtWidgets import QTextBrowser
@@ -65,9 +86,6 @@ class InvoiceDialog(QtWidgets.QDialog):
         self.view.setStyleSheet("border: 1px solid #e2e8f0; border-radius: 10px; background: white; padding: 20px;")
         layout.addWidget(self.view)
 
-        self.btn_save.clicked.connect(self.save_invoice)
-        self.btn_print.clicked.connect(self.print_invoice)
-        self.btn_mark_paid.clicked.connect(self.mark_as_paid)
 
     def generate_invoice_html(self):
         from datetime import timedelta
@@ -79,16 +97,10 @@ class InvoiceDialog(QtWidgets.QDialog):
         profile = CompanyProfile.get_or_none()
         daily_fee_rate = profile.daily_late_fee if profile else 0.0
         
-        # Calculate Overdue Penalty
-        today = date.today()
-        days_overdue = 0
-        penalty_amount = 0.0
-        if self.invoice.status.upper() != "PAID" and self.invoice.due_date:
-            if today > self.invoice.due_date:
-                days_overdue = (today - self.invoice.due_date).days
-                penalty_amount = days_overdue * daily_fee_rate
-        
-        final_total = self.invoice.grand_total + penalty_amount
+        # Calculate Overdue Penalty using Model Properties
+        days_overdue = self.invoice.days_overdue
+        penalty_amount = self.invoice.late_fee
+        final_total = self.invoice.total_due
         
         late_fee_html = ""
         if penalty_amount > 0:
@@ -99,12 +111,32 @@ class InvoiceDialog(QtWidgets.QDialog):
             </tr>
             """
             
-        company_name = self.invoice.company_name or "TEXKNIT COLORS"
+        # Robust Timestamp Information
+        status_upper = self.invoice.status.upper()
+        if status_upper == 'PAID' and self.invoice.paid_at:
+            display_date = self.invoice.paid_at
+            date_label = "Paid Date"
+        elif status_upper == 'SENT' and self.invoice.sent_at:
+            display_date = self.invoice.sent_at
+            date_label = "Sent Date"
+        elif status_upper == 'DRAFT' and self.invoice.draft_at:
+            display_date = self.invoice.draft_at
+            date_label = "Draft Date"
+        else:
+            # Fallback for old records or missing timestamps
+            display_date = self.invoice.created_at or datetime.now()
+            date_label = "Date"
+            
+        date_str = display_date.strftime('%d-%m-%Y %H:%M')
+            
+        # Use CompanyProfile as fallback for all details
+        from database.models import CompanyProfile
+        profile = CompanyProfile.get_or_none()
         
-        # Build the detail labels
-        gstin = self.invoice.company_gstin or ""
-        phone = self.invoice.company_phone or ""
-        email = self.invoice.company_email or ""
+        company_name = self.invoice.company_name or (profile.name if profile and profile.name else "TEXKNIT COLORS")
+        gstin = self.invoice.company_gstin or (profile.gstin if profile and profile.gstin else "")
+        phone = self.invoice.company_phone or (profile.phone if profile and profile.phone else "")
+        email = self.invoice.company_email or (profile.email if profile and profile.email else "")
         
         logo_html = ""
         if self.invoice.company_logo_data:
@@ -245,8 +277,8 @@ class InvoiceDialog(QtWidgets.QDialog):
                                     <td class="meta-val">{self.invoice.invoice_no.split('-')[-1]}</td>
                                 </tr>
                                 <tr>
-                                    <td class="meta-label">Date</td>
-                                    <td class="meta-val">{self.invoice.created_at.strftime('%d-%m-%Y')}</td>
+                                    <td class="meta-label">{date_label}</td>
+                                    <td class="meta-val">{date_str}</td>
                                 </tr>
                                 <tr>
                                     <td class="meta-label">Due Date</td>
@@ -362,3 +394,38 @@ class InvoiceDialog(QtWidgets.QDialog):
             self.view.setHtml(self.generate_invoice_html())
             relay.data_changed.emit()
             QMessageBox.information(self, "Success", "Invoice marked as PAID.")
+
+    def finalize_invoice(self):
+        from services.invoice_service import InvoiceService
+        from services.communication_service import relay
+        from PySide6.QtWidgets import QMessageBox
+        
+        confirm = QMessageBox.question(self, "Confirm Finalization", 
+                                     "Finalizing will officially deduct items from stock and mark the invoice as SENT.\n\n"
+                                     "Do you want to proceed?",
+                                     QMessageBox.Yes | QMessageBox.No)
+        
+        if confirm == QMessageBox.Yes:
+            try:
+                # We need the current user ID. 
+                # Ideally, we'd pass it in, but 'admin' is safe for now if not available.
+                # In main_window.py, we have self.user.id
+                user_id = 1 # Fallback to admin ID
+                if hasattr(self.parent(), 'user'):
+                    user_id = self.parent().user.id
+                
+                InvoiceService.finalize_invoice(self.invoice.id, user_id)
+                self.invoice.status = 'SENT'
+                self.btn_finalize.setVisible(False)
+                self.btn_edit.setVisible(False) # Hide edit once finalized
+                self.btn_mark_paid.setVisible(True)
+                self.view.setHtml(self.generate_invoice_html())
+                relay.data_changed.emit()
+                QMessageBox.information(self, "Success", "Invoice Finalized and Stock Updated.")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to finalize invoice: {str(e)}")
+
+    def request_edit(self):
+        from services.communication_service import relay
+        relay.edit_requested.emit(self.invoice)
+        self.accept() # Close dialog

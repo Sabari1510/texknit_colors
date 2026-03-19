@@ -62,6 +62,7 @@ class InvoiceService:
             grand_total=grand_total,
             status='DRAFT',
             due_date=due_date or (datetime.now() + timedelta(days=14)).date(),
+            draft_at=datetime.now(),
             
             # Snapshots
             company_name=profile.name if profile else "TEXKNIT COLORS",
@@ -85,5 +86,39 @@ class InvoiceService:
     def update_invoice_status(invoice_id, new_status):
         invoice = Invoice.get_by_id(invoice_id)
         invoice.status = new_status
+        if new_status.upper() == 'PAID' and not invoice.paid_at:
+            invoice.paid_at = datetime.now()
         invoice.save()
         return invoice
+
+    @staticmethod
+    def finalize_invoice(invoice_id, performed_by_id):
+        """Transition invoice from DRAFT to SENT and deduct stock."""
+        from services.mrs_service import MRSService
+        from database.models import db
+        
+        with db.atomic():
+            invoice = Invoice.get_by_id(invoice_id)
+            if invoice.status.upper() != 'DRAFT':
+                raise ValueError(f"Only DRAFT invoices can be finalized. Current status: {invoice.status}")
+                
+            mrs = invoice.mrs
+            
+            # 1. Deduct stock via MRSService.issue_mrs
+            issue_items = []
+            for item in mrs.items:
+                issue_items.append({
+                    'material_id': item.material_id,
+                    'quantity_issued': item.quantity_requested
+                })
+            
+            # This handles stock deduction, transactions, and labels MRS as ISSUED
+            MRSService.issue_mrs(mrs.id, performed_by_id, issue_items)
+            
+            # 2. Update Invoice Status
+            invoice.status = 'SENT'
+            if not invoice.sent_at:
+                invoice.sent_at = datetime.now()
+            invoice.save()
+            
+            return invoice

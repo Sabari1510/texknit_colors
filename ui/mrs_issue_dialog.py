@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
                              QLineEdit, QPushButton, QScrollArea, QWidget, QFrame)
 from PySide6.QtCore import Qt
-from pathlib import Path
+from utils.path_resolver import resolve_asset
 class MRSIssueDialog(QDialog):
     def __init__(self, mrs, parent=None):
         super().__init__(parent)
@@ -13,7 +13,7 @@ class MRSIssueDialog(QDialog):
         self.issue_items = []
         
         # Load Styles
-        styles_path = Path(__file__).parent / "styles.qss"
+        styles_path = resolve_asset("ui/styles.qss")
         with open(styles_path, "r", encoding="utf-8") as f:
             self.setStyleSheet(f.read())
             

@@ -3,6 +3,7 @@ import datetime
 import bcrypt
 import json
 from pathlib import Path
+from utils.path_resolver import resolve_data
 
 # Initialize a Database Proxy for dynamic configuration
 db = DatabaseProxy()
@@ -133,6 +134,9 @@ class Invoice(BaseModel):
     gst_percentage = FloatField(default=18)
     status = CharField(default='DRAFT')  # DRAFT, SENT, PAID
     created_at = DateTimeField(default=datetime.datetime.now)
+    draft_at = DateTimeField(null=True)
+    sent_at = DateTimeField(null=True)
+    paid_at = DateTimeField(null=True)
 
     # Snapshots for immutability
     company_name = CharField(null=True)
@@ -142,6 +146,28 @@ class Invoice(BaseModel):
     company_phone = CharField(null=True)
     company_logo_data = TextField(null=True)
     due_date = DateField(null=True)
+    
+    @property
+    def days_overdue(self):
+        if self.status.upper() != "PAID" and self.due_date:
+            today = datetime.date.today()
+            if today > self.due_date:
+                return (today - self.due_date).days
+        return 0
+
+    @property
+    def late_fee(self):
+        days = self.days_overdue
+        if days > 0:
+            # We can use the dynamic daily_late_fee from the profile
+            profile = CompanyProfile.get_or_none()
+            rate = profile.daily_late_fee if profile else 0.0
+            return days * rate
+        return 0.0
+
+    @property
+    def total_due(self):
+        return self.grand_total + self.late_fee
 
 class Consumer(BaseModel):
     company_name = CharField()
@@ -195,16 +221,18 @@ def _migrate_passwords():
 
 def _add_column_if_missing(table_class, column_name, column_field):
     """Safely add a column to an existing table if it doesn't exist."""
-    try:
-        db.execute_sql(f'SELECT "{column_name}" FROM "{table_class._meta.table_name}" LIMIT 1')
-    except Exception:
+    table_name = table_class._meta.table_name
+    cursor = db.execute_sql(f"PRAGMA table_info({table_name})")
+    columns = [row[1] for row in cursor.fetchall()]
+    
+    if column_name not in columns:
         from playhouse.migrate import SqliteMigrator, migrate as pw_migrate
         migrator = SqliteMigrator(db)
-        pw_migrate(migrator.add_column(table_class._meta.table_name, column_name, column_field))
+        pw_migrate(migrator.add_column(table_name, column_name, column_field))
 
 
 def initialize_db():
-    config_file = Path(__file__).parent.parent / "config.json"
+    config_file = resolve_data("config.json")
     if config_file.exists():
         with open(config_file, 'r') as f:
             config = json.load(f)
@@ -221,8 +249,7 @@ def initialize_db():
             port=config.get("db_port", 5432)
         )
     else:
-        root_dir = Path(__file__).parent.parent
-        db_path = root_dir / config.get("db_name", "stock_management.db")
+        db_path = resolve_data(config.get("db_name", "stock_management.db"))
         database = SqliteDatabase(str(db_path))
         
     db.initialize(database)
@@ -242,6 +269,11 @@ def initialize_db():
     _add_column_if_missing(Material, 'hazard_class', CharField(default='None'))
     _add_column_if_missing(Material, 'storage_temp_min', FloatField(null=True))
     _add_column_if_missing(Material, 'storage_temp_max', FloatField(null=True))
+
+    # Migrate: add new Invoice timestamp columns if missing
+    _add_column_if_missing(Invoice, 'draft_at', DateTimeField(null=True))
+    _add_column_if_missing(Invoice, 'sent_at', DateTimeField(null=True))
+    _add_column_if_missing(Invoice, 'paid_at', DateTimeField(null=True))
 
     # Create default admin if not exists
     if User.select().where(User.username == 'admin').count() == 0:

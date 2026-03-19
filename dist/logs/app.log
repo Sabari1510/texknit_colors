@@ -1,0 +1,22 @@
+2026-03-09 14:10:32,770 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 14:10:32,776 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_141032.db
+2026-03-09 14:10:32,781 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "main.py", line 72, in <module>
+  File "main.py", line 27, in __init__
+  File "main.py", line 30, in show_login
+  File "ui\login_view.py", line 17, in __init__
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\sabar\\AppData\\Local\\Temp\\_MEI228762\\ui\\styles.qss'
+
+2026-03-09 14:11:09,197 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 14:11:09,203 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_141109.db
+2026-03-09 14:11:09,208 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "main.py", line 72, in <module>
+  File "main.py", line 27, in __init__
+  File "main.py", line 30, in show_login
+  File "ui\login_view.py", line 17, in __init__
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\sabar\\AppData\\Local\\Temp\\_MEI16002\\ui\\styles.qss'
+
+2026-03-09 14:20:00,844 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 14:20:00,846 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_142000.db

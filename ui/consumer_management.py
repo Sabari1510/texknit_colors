@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
                              QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QFrame,
                              QDialog, QFormLayout, QLineEdit, QMessageBox)
 from PySide6.QtCore import Qt
-from pathlib import Path
+from utils.path_resolver import resolve_asset
 from database.models import Consumer
 from services.communication_service import relay
 from services.validators import validate_required, validate_phone, validate_gst, collect_errors
@@ -16,7 +16,7 @@ class ConsumerFormDialog(QDialog):
         self.resize(450, 420)
         
         # Load Styles
-        styles_path = Path(__file__).parent / "styles.qss"
+        styles_path = resolve_asset("ui/styles.qss")
         with open(styles_path, "r", encoding="utf-8") as f:
             self.setStyleSheet(f.read())
         

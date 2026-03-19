@@ -8,6 +8,10 @@ class SignalRelay(QObject):
     # Emitted whenever any data in the database changes (Inventory, Suppliers, Consumers, etc.)
     data_changed = Signal()
     
+    # Emitted when an invoice edit is requested from the preview dialog
+    # Passes the Invoice object
+    edit_requested = Signal(object)
+    
     _instance = None
     
     @classmethod

@@ -82,3 +82,439 @@ AttributeError: type object 'PySide6.QtWidgets.QPushButton' has no attribute 'Ex
 2026-03-08 18:57:03,985 - INFO - AppLogger - Application starting - running backup protocol
 2026-03-08 18:57:03,990 - INFO - AppLogger - Deleted old backup: stock_management_20260308_160850.db
 2026-03-08 18:57:03,997 - INFO - AppLogger - Successfully created database backup: stock_management_20260308_185703.db
+2026-03-09 09:31:27,772 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:31:27,774 - INFO - AppLogger - Deleted old backup: stock_management_20260308_161120.db
+2026-03-09 09:31:27,776 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_093127.db
+2026-03-09 09:34:31,162 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:34:31,164 - INFO - AppLogger - Deleted old backup: stock_management_20260308_161236.db
+2026-03-09 09:34:31,167 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_093431.db
+2026-03-09 09:42:00,959 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:42:00,960 - INFO - AppLogger - Deleted old backup: stock_management_20260308_161710.db
+2026-03-09 09:42:00,963 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_094200.db
+2026-03-09 09:50:04,801 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:50:04,803 - INFO - AppLogger - Deleted old backup: stock_management_20260308_162600.db
+2026-03-09 09:50:04,806 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_095004.db
+2026-03-09 09:50:11,543 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 51, in handle_login
+    self.show_main_window(user)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 56, in show_main_window
+    self.main_window = MainWindow(user)
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 27, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 206, in setup_ui
+    self.mrs_view = MRSWorkflowView(self.user)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 19, in __init__
+    self.load_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 519, in load_data
+    self.load_invoice_history()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 366, in load_invoice_history
+    self.display_invoices(self.all_invoices)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 394, in display_invoices
+    total_item.setStyleSheet("font-weight: bold;")
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PySide6.QtWidgets.QTableWidgetItem' object has no attribute 'setStyleSheet'
+
+2026-03-09 09:50:18,513 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:50:18,516 - INFO - AppLogger - Deleted old backup: stock_management_20260308_175437.db
+2026-03-09 09:50:18,518 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_095018.db
+2026-03-09 09:50:24,616 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 51, in handle_login
+    self.show_main_window(user)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 56, in show_main_window
+    self.main_window = MainWindow(user)
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 27, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 206, in setup_ui
+    self.mrs_view = MRSWorkflowView(self.user)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 19, in __init__
+    self.load_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 519, in load_data
+    self.load_invoice_history()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 366, in load_invoice_history
+    self.display_invoices(self.all_invoices)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 394, in display_invoices
+    total_item.setStyleSheet("font-weight: bold;")
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PySide6.QtWidgets.QTableWidgetItem' object has no attribute 'setStyleSheet'
+
+2026-03-09 09:51:09,975 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:51:09,976 - INFO - AppLogger - Deleted old backup: stock_management_20260308_180152.db
+2026-03-09 09:51:09,979 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_095109.db
+2026-03-09 09:55:29,604 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:55:29,606 - INFO - AppLogger - Deleted old backup: stock_management_20260308_182401.db
+2026-03-09 09:55:29,609 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_095529.db
+2026-03-09 09:58:47,369 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 09:58:47,372 - INFO - AppLogger - Deleted old backup: stock_management_20260308_185703.db
+2026-03-09 09:58:47,374 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_095847.db
+2026-03-09 10:03:14,426 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:03:14,427 - INFO - AppLogger - Deleted old backup: stock_management_20260309_093127.db
+2026-03-09 10:03:14,430 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_100314.db
+2026-03-09 10:05:15,727 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:05:15,729 - INFO - AppLogger - Deleted old backup: stock_management_20260309_093431.db
+2026-03-09 10:05:15,731 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_100515.db
+2026-03-09 10:10:24,723 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 51, in handle_login
+    self.show_main_window(user)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 56, in show_main_window
+    self.main_window = MainWindow(user)
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 27, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 210, in setup_ui
+    self.procurement_view = ProcurementManagerView(self.user)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 16, in __init__
+    self.load_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 213, in load_data
+    self.refresh_inward(pis)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 243, in refresh_inward
+    self.inward_table.setRowCount(len(active))
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'ProcurementManagerView' object has no attribute 'inward_table'
+
+2026-03-09 10:10:36,920 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:10:36,922 - INFO - AppLogger - Deleted old backup: stock_management_20260309_094200.db
+2026-03-09 10:10:36,925 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_101036.db
+2026-03-09 10:10:47,070 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 51, in handle_login
+    self.show_main_window(user)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 56, in show_main_window
+    self.main_window = MainWindow(user)
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 27, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 210, in setup_ui
+    self.procurement_view = ProcurementManagerView(self.user)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 16, in __init__
+    self.load_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 213, in load_data
+    self.refresh_inward(pis)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 243, in refresh_inward
+    self.inward_table.setRowCount(len(active))
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'ProcurementManagerView' object has no attribute 'inward_table'
+
+2026-03-09 10:11:34,264 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:11:34,267 - INFO - AppLogger - Deleted old backup: stock_management_20260309_095004.db
+2026-03-09 10:11:34,270 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_101134.db
+2026-03-09 10:12:12,185 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:12:12,187 - INFO - AppLogger - Deleted old backup: stock_management_20260309_095018.db
+2026-03-09 10:12:12,189 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_101212.db
+2026-03-09 10:13:08,012 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:13:08,014 - INFO - AppLogger - Deleted old backup: stock_management_20260309_095109.db
+2026-03-09 10:13:08,015 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_101308.db
+2026-03-09 10:14:19,951 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 234, in refresh_consumers
+    self.consumer_combo.clear()
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MRSWorkflowView' object has no attribute 'consumer_combo'
+
+2026-03-09 10:15:55,076 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 253, in <lambda>
+    btn.clicked.connect(lambda checked=False, pi=p: self.complete_inward(pi))
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 259, in complete_inward
+    ProcurementService.process_inward(pi.id, self.user.id, 5) # Default 5 star
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\services\procurement_service.py", line 50, in process_inward
+    raise ValueError("Only approved PIs can be processed for inward")
+ValueError: Only approved PIs can be processed for inward
+
+2026-03-09 10:16:57,488 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:16:57,490 - INFO - AppLogger - Deleted old backup: stock_management_20260309_095529.db
+2026-03-09 10:16:57,492 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_101657.db
+2026-03-09 10:22:14,671 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:22:14,673 - INFO - AppLogger - Deleted old backup: stock_management_20260309_095847.db
+2026-03-09 10:22:14,676 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_102214.db
+2026-03-09 10:22:39,314 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 244, in <lambda>
+    btn.clicked.connect(lambda checked=False, pi=p: self.review_pi(pi))
+                                                    ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 248, in review_pi
+    dialog = PIReviewDialog(pi, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 336, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 351, in setup_ui
+    info_layout = QGridLayout(info_frame)
+                  ^^^^^^^^^^^
+NameError: name 'QGridLayout' is not defined. Did you mean: 'QVBoxLayout'?
+
+2026-03-09 10:23:34,027 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:23:34,029 - INFO - AppLogger - Deleted old backup: stock_management_20260309_100314.db
+2026-03-09 10:23:34,032 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_102334.db
+2026-03-09 10:25:55,209 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:25:55,211 - INFO - AppLogger - Deleted old backup: stock_management_20260309_100515.db
+2026-03-09 10:25:55,214 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_102555.db
+2026-03-09 10:46:06,514 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 10:46:06,515 - INFO - AppLogger - Deleted old backup: stock_management_20260309_101036.db
+2026-03-09 10:46:06,517 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_104606.db
+2026-03-09 14:21:21,446 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-09 14:21:21,448 - INFO - AppLogger - Deleted old backup: stock_management_20260309_101134.db
+2026-03-09 14:21:21,450 - INFO - AppLogger - Successfully created database backup: stock_management_20260309_142121.db
+2026-03-10 13:43:47,473 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-10 13:43:47,476 - INFO - AppLogger - Deleted old backup: stock_management_20260309_101212.db
+2026-03-10 13:43:47,478 - INFO - AppLogger - Successfully created database backup: stock_management_20260310_134347.db
+2026-03-10 13:47:42,727 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 264, in <lambda>
+    btn.clicked.connect(lambda checked=False, pi=p: self.complete_inward(pi))
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\procurement_manager.py", line 270, in complete_inward
+    ProcurementService.process_inward(pi.id, self.user.id, 5) # Default 5 star
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\services\procurement_service.py", line 50, in process_inward
+    raise ValueError("Only approved PIs can be processed for inward")
+ValueError: Only approved PIs can be processed for inward
+
+2026-03-10 13:57:38,284 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-10 13:57:38,286 - INFO - AppLogger - Deleted old backup: stock_management_20260309_101308.db
+2026-03-10 13:57:38,289 - INFO - AppLogger - Successfully created database backup: stock_management_20260310_135738.db
+2026-03-13 11:16:35,401 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:16:35,405 - INFO - AppLogger - Deleted old backup: stock_management_20260309_101657.db
+2026-03-13 11:16:35,414 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_111635.db
+2026-03-13 11:16:53,439 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3336, in execute_sql
+    cursor.execute(sql, params or ())
+sqlite3.OperationalError: no such column: t1.draft_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 51, in handle_login
+    self.show_main_window(user)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 56, in show_main_window
+    self.main_window = MainWindow(user)
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 27, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 206, in setup_ui
+    self.mrs_view = MRSWorkflowView(self.user)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 19, in __init__
+    self.load_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 556, in load_data
+    self.load_invoice_history()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 380, in load_invoice_history
+    self.all_invoices = list(InvoiceService.get_all_invoices())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 7398, in __iter__
+    self.execute()
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 2040, in inner
+    return method(self, database, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 2111, in execute
+    return self._execute(database)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 2284, in _execute
+    cursor = database.execute(self)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3342, in execute
+    return self.execute_sql(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3334, in execute_sql
+    with __exception_wrapper__:
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3106, in __exit__
+    reraise(new_type, new_type(exc_value, *exc_args), traceback)
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 196, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3336, in execute_sql
+    cursor.execute(sql, params or ())
+peewee.OperationalError: no such column: t1.draft_at
+
+2026-03-13 11:16:53,580 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\inventory_management.py", line 148, in _on_data_loaded
+    self.filter_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\inventory_management.py", line 324, in filter_data
+    self.display_data(filtered)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\inventory_management.py", line 210, in display_data
+    value_item.setForeground(QtGui.QColor("#0F172A"))
+                             ^^^^^
+NameError: name 'QtGui' is not defined
+
+2026-03-13 11:17:03,918 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:17:03,919 - INFO - AppLogger - Deleted old backup: stock_management_20260309_102214.db
+2026-03-13 11:17:03,921 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_111703.db
+2026-03-13 11:17:11,308 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3336, in execute_sql
+    cursor.execute(sql, params or ())
+sqlite3.OperationalError: no such column: t1.draft_at
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 51, in handle_login
+    self.show_main_window(user)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\main.py", line 56, in show_main_window
+    self.main_window = MainWindow(user)
+                       ^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 27, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\main_window.py", line 206, in setup_ui
+    self.mrs_view = MRSWorkflowView(self.user)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 19, in __init__
+    self.load_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 556, in load_data
+    self.load_invoice_history()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 380, in load_invoice_history
+    self.all_invoices = list(InvoiceService.get_all_invoices())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 7398, in __iter__
+    self.execute()
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 2040, in inner
+    return method(self, database, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 2111, in execute
+    return self._execute(database)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 2284, in _execute
+    cursor = database.execute(self)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3342, in execute
+    return self.execute_sql(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3334, in execute_sql
+    with __exception_wrapper__:
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3106, in __exit__
+    reraise(new_type, new_type(exc_value, *exc_args), traceback)
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 196, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\sabar\AppData\Local\Programs\Python\Python312\Lib\site-packages\peewee.py", line 3336, in execute_sql
+    cursor.execute(sql, params or ())
+peewee.OperationalError: no such column: t1.draft_at
+
+2026-03-13 11:17:11,415 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\inventory_management.py", line 148, in _on_data_loaded
+    self.filter_data()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\inventory_management.py", line 324, in filter_data
+    self.display_data(filtered)
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\inventory_management.py", line 210, in display_data
+    value_item.setForeground(QtGui.QColor("#0F172A"))
+                             ^^^^^
+NameError: name 'QtGui' is not defined
+
+2026-03-13 11:20:25,307 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:20:25,310 - INFO - AppLogger - Deleted old backup: stock_management_20260309_102334.db
+2026-03-13 11:20:25,313 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_112025.db
+2026-03-13 11:22:51,603 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 479, in <lambda>
+    btn_view.clicked.connect(lambda checked=False, iv=inv: self.open_invoice_dialog(iv))
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 550, in open_invoice_dialog
+    dialog = InvoiceDialog(invoice, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 10, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 85, in setup_ui
+    self.view.setHtml(self.generate_invoice_html())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 266, in generate_invoice_html
+    {(self.invoice.paid_at if self.invoice.status.upper() == 'PAID' else self.invoice.sent_at if self.invoice.status.upper() == 'SENT' else self.invoice.draft_at or self.invoice.created_at).strftime('%d-%m-%Y %H:%M')}
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strftime'
+
+2026-03-13 11:23:10,730 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 479, in <lambda>
+    btn_view.clicked.connect(lambda checked=False, iv=inv: self.open_invoice_dialog(iv))
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 550, in open_invoice_dialog
+    dialog = InvoiceDialog(invoice, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 10, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 85, in setup_ui
+    self.view.setHtml(self.generate_invoice_html())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 266, in generate_invoice_html
+    {(self.invoice.paid_at if self.invoice.status.upper() == 'PAID' else self.invoice.sent_at if self.invoice.status.upper() == 'SENT' else self.invoice.draft_at or self.invoice.created_at).strftime('%d-%m-%Y %H:%M')}
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strftime'
+
+2026-03-13 11:24:02,557 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 479, in <lambda>
+    btn_view.clicked.connect(lambda checked=False, iv=inv: self.open_invoice_dialog(iv))
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 550, in open_invoice_dialog
+    dialog = InvoiceDialog(invoice, self)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 10, in __init__
+    self.setup_ui()
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 85, in setup_ui
+    self.view.setHtml(self.generate_invoice_html())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\invoice_dialog.py", line 266, in generate_invoice_html
+    {( (self.invoice.paid_at if self.invoice.status.upper() == 'PAID' else
+AttributeError: 'NoneType' object has no attribute 'strftime'
+
+2026-03-13 11:24:52,276 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:24:52,279 - INFO - AppLogger - Deleted old backup: stock_management_20260309_102555.db
+2026-03-13 11:24:52,283 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_112452.db
+2026-03-13 11:27:59,135 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:27:59,137 - INFO - AppLogger - Deleted old backup: stock_management_20260309_104606.db
+2026-03-13 11:27:59,139 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_112759.db
+2026-03-13 11:31:11,570 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:31:11,572 - INFO - AppLogger - Deleted old backup: stock_management_20260309_142121.db
+2026-03-13 11:31:11,575 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_113111.db
+2026-03-13 11:34:04,813 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:34:04,815 - INFO - AppLogger - Deleted old backup: stock_management_20260310_134347.db
+2026-03-13 11:34:04,818 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_113404.db
+2026-03-13 11:38:53,342 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:38:53,344 - INFO - AppLogger - Deleted old backup: stock_management_20260310_135738.db
+2026-03-13 11:38:53,348 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_113853.db
+2026-03-13 11:42:50,877 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:42:50,879 - INFO - AppLogger - Deleted old backup: stock_management_20260313_111635.db
+2026-03-13 11:42:50,881 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_114250.db
+2026-03-13 11:45:31,236 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:45:31,238 - INFO - AppLogger - Deleted old backup: stock_management_20260313_111703.db
+2026-03-13 11:45:31,242 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_114531.db
+2026-03-13 11:45:57,762 - CRITICAL - AppLogger - Uncaught exception:
+Traceback (most recent call last):
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 595, in <lambda>
+    btn_edit.clicked.connect(lambda checked=False, iv=inv: self.edit_draft_invoice(iv))
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sabar\Desktop\consultancy\Stock-Management-Application\ui\mrs_workflow.py", line 672, in edit_draft_invoice
+    last_row['qty'].setText(str(item.quantity))
+                                ^^^^^^^^^^^^^
+AttributeError: 'MRSItem' object has no attribute 'quantity'
+
+2026-03-13 11:48:13,254 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:48:13,257 - INFO - AppLogger - Deleted old backup: stock_management_20260313_112025.db
+2026-03-13 11:48:13,260 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_114813.db
+2026-03-13 11:52:15,172 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:52:15,174 - INFO - AppLogger - Deleted old backup: stock_management_20260313_112452.db
+2026-03-13 11:52:15,177 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_115215.db
+2026-03-13 11:59:09,552 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 11:59:09,554 - INFO - AppLogger - Deleted old backup: stock_management_20260313_112759.db
+2026-03-13 11:59:09,560 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_115909.db
+2026-03-13 12:01:47,767 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 12:01:47,771 - INFO - AppLogger - Deleted old backup: stock_management_20260313_113111.db
+2026-03-13 12:01:47,776 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_120147.db
+2026-03-13 12:03:25,995 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 12:03:25,996 - INFO - AppLogger - Deleted old backup: stock_management_20260313_113404.db
+2026-03-13 12:03:26,001 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_120325.db
+2026-03-13 12:04:00,006 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-13 12:04:00,010 - INFO - AppLogger - Deleted old backup: stock_management_20260313_113853.db
+2026-03-13 12:04:00,013 - INFO - AppLogger - Successfully created database backup: stock_management_20260313_120400.db
+2026-03-17 10:14:46,765 - INFO - AppLogger - Application starting - running backup protocol
+2026-03-17 10:14:46,770 - INFO - AppLogger - Deleted old backup: stock_management_20260313_114250.db
+2026-03-17 10:14:46,777 - INFO - AppLogger - Successfully created database backup: stock_management_20260317_101446.db

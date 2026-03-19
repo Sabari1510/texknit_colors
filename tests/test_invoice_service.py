@@ -79,6 +79,26 @@ class TestInvoiceStatusUpdate:
 
         updated = InvoiceService.update_invoice_status(invoice.id, 'PAID')
         assert updated.status == 'PAID'
+        assert updated.paid_at is not None
+
+    def test_status_timestamps(self, supervisor_user, sample_material, company_profile):
+        items = [{'material_id': sample_material.id, 'quantity_requested': 5}]
+        mrs = MRSService.create_mrs(supervisor_user.id, 'INV-BATCH-TIMESTAMPS', items)
+        
+        # 1. Draft
+        invoice = InvoiceService.create_invoice_from_mrs(mrs.id)
+        assert invoice.draft_at is not None
+        assert invoice.sent_at is None
+        assert invoice.paid_at is None
+        
+        # 2. Sent
+        invoice = InvoiceService.finalize_invoice(invoice.id, supervisor_user.id)
+        assert invoice.sent_at is not None
+        assert invoice.paid_at is None
+        
+        # 3. Paid
+        invoice = InvoiceService.update_invoice_status(invoice.id, 'PAID')
+        assert invoice.paid_at is not None
 
 
 class TestGetInvoices:
